@@ -51,7 +51,7 @@
                         <p> <label for="n_options" class="bg-white text-gray-600 text-lg md:text-base px-1">Quantas opções?</label> </p>
                     </div>
                     <p> <input id="n_options" autocomplete="false" tabindex="0" type="number" name="n_options"
-                            value="{{$enquete->options}}" class="py-1 px-1 text-gray-900 outline-none block h-full w-full">
+                            value="{{$n_options}}" class="py-1 px-1 text-gray-900 outline-none block h-full w-full">
                     </p>
                 </div>
             </div>

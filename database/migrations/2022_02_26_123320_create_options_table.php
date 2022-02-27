@@ -15,9 +15,10 @@ class CreateOptionsTable extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('question');
+            $table->string('option');
             $table->integer('n_answers')->default(0);
             $table->unsignedBigInteger('enquete_id');
+            
             $table->foreign('enquete_id')->references('id')->on('enquetes');
         });
     }

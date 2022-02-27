@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Enquete;
+use App\Option;
 use App\Http\Requests\EnqueteFormRequest;
 
 class EnqueteController extends Controller
@@ -18,16 +19,30 @@ class EnqueteController extends Controller
         ]);
     }
 
+    public function answer(Request $request) {
+        $option = Option::find($request->answer);
+        $option->n_answers++;
+        $option->update();
+        return redirect()->back();
+        // return view('enquete',[
+        //     'title' => $enquete->title,
+        //     'question' => $enquete->question,
+        //     'options' => $enquete->options,
+        // ]);
+    }
+
     public function create(Request $request) {
         $enquete = new Enquete();
         return view('form',[
             'enquete' => $enquete,
             'title' => 'Criar Enquete',
             'message' => $request->session()->get('message'),
+            'n_options'=> 3,
         ]);
     }
 
     public function store(EnqueteFormRequest $request) {
+        $msg = (object)[];
         if(strtotime($request->dt_start) < strtotime('now' . "-1 days")) {
             $msg->color = 'red';
             $msg->text = 'Não é possível inserir enquetes retroativamente, contate o suporte';
@@ -49,46 +64,47 @@ class EnqueteController extends Controller
         return redirect("/nova-enquete/$enquete->id");
     }
 
-    public function read() {
+    public function read(Request $request) {
+        $enquete = Enquete::find($request->id);
         return view('enquete',[
-            'title' => 'Enquete App'
+            'title' => $enquete->title,
+            'question' => $enquete->question,
+            'options' => $enquete->options,
         ]);
     }
 
     public function editForm(Request $request) {
         $enquete = Enquete::find($request->id);
-        $options = [];
+        $n_options = count($enquete->options);
         return view('form',[
-            'options'=>$options,
             'enquete' => $enquete,
             'title' => 'Editar Enquete',
             'message' => $request->session()->get('message'),
+            'n_options'=> $n_options,
         ]);
     }
 
     public function update(EnqueteFormRequest $request) {
-        $msg = (object)[];
-
-        $enquete = Enquete::find($request->id);
-        $enquete->title = $request->title;
-        $enquete->question = $request->question;
-        $enquete->dt_start = $request->dt_start;
-        $enquete->dt_end = $request->dt_end;
-        $enquete->options = '{}';
-        $enquete->update();
-
-        $msg->color = 'green';
-        $msg->text = "Enquete {$enquete->title} editada com sucesso!";
-        $request->session()->flash("message", $msg);
-        return redirect('/');
+        $request->session()->put("info", [
+            'title'=>$request->title,
+            'question'=>$request->question,
+            'dt_start'=>$request->dt_start,
+            'dt_end'=>$request->dt_end
+        ]);
+        return redirect("/editar-enquete/options/$request->id");
     }
 
     public function destroy(Request $request) {
-        $msg = (object)[];
-        Enquete::destroy($request->id);
+        $enquete = Enquete::find($request->id);
+        $nome_enquete = $enquete->title;
+        $enquete->options->each(function ($temporada) {
+            $temporada->delete();
+        });
+        $enquete->delete();
+
         $msg = (object)[];
         $msg->color = 'green';
-        $msg->text = "Enquete removida com sucesso!";
+        $msg->text = "Enquete $nome_enquete removida com sucesso!";
         $request->session()->flash("message", $msg);
         return redirect('/');
     }

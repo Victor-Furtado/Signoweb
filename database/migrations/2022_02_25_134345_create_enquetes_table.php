@@ -19,7 +19,6 @@ class CreateEnquetesTable extends Migration
             $table->string('question');
             $table->date('dt_start');
             $table->date('dt_end');
-            // $table->json('options');
         });
     }
 

@@ -12,11 +12,17 @@
 */
 
 Route::get('/', 'EnqueteController@index');
+Route::get('/{id}', 'EnqueteController@read');
+Route::post('/{id}', 'EnqueteController@answer');
+Route::delete('/{id}', 'EnqueteController@destroy');
 Route::get('/nova-enquete', 'EnqueteController@create');
 Route::get('/nova-enquete/{id}', 'OptionsController@create');
+Route::post('/nova-enquete/{id}', 'OptionsController@store');
+Route::delete('/nova-enquete/{id}', 'OptionsController@cancel');
 Route::post('/nova-enquete', 'EnqueteController@store');
-Route::get('/enquete', 'EnqueteController@read');
 Route::get('/editar-enquete/{id}', 'EnqueteController@editForm');
 Route::post('/editar-enquete/{id}', 'EnqueteController@update');
-Route::delete('/{id}', 'EnqueteController@destroy');
+Route::get('/editar-enquete/options/{id}', 'OptionsController@editForm');
+Route::post('/editar-enquete/options/{id}', 'OptionsController@update');
+Route::delete('/editar-enquete/options/{id}', 'OptionsController@cancelUpdate');
 
