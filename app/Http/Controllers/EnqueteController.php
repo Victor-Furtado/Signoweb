@@ -21,12 +21,15 @@ class EnqueteController extends Controller
 
     public function read(Request $request) {
         $enquete = Enquete::find($request->id);
+        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d',strtotime($currentDate));
+        $disabled = ($currentDate >= $enquete->dt_start) && ($currentDate <= $enquete->dt_end) ? 0 : 1;
         return view('enquete',[
             'title' => $enquete->title,
             'question' => $enquete->question,
             'options' => $enquete->options,
             'enquete' => $enquete,
-            'today' => date('Y-m-d', strtotime('now'))
+            'disabled' => $disabled
         ]);
     }
 
