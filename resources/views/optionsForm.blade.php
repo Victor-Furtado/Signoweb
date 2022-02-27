@@ -1,3 +1,5 @@
+<!-- [TODO] OPTIONS REQUEST VALIDATION -->
+
 @extends('layout')
 @section('title')
 <?= $title;?>
