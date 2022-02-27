@@ -23,6 +23,14 @@
                 <p class='text-xs text-gray-400'>VOTOS: <span class='text-base text-black'>{{$option->n_answers}}</span></p>
             </div>
             @endforeach
+            <div class="mt-5">
+                ENQUETE REALIZADA ENTRE
+                </div>
+            <div class="mt-5">
+                <span class='font-bold text-lg text-gray-700'>{{date("d/m/Y",strtotime($enquete->dt_start))}}</span>
+                E
+                <span class='font-bold text-lg text-gray-700'>{{date("d/m/Y",strtotime($enquete->dt_end))}}</span>
+            </div>
         </fieldset>
         <div class="flex justify-center mb-5">
             <button type='submit'
