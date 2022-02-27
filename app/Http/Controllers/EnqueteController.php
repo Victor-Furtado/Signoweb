@@ -19,16 +19,22 @@ class EnqueteController extends Controller
         ]);
     }
 
+    public function read(Request $request) {
+        $enquete = Enquete::find($request->id);
+        return view('enquete',[
+            'title' => $enquete->title,
+            'question' => $enquete->question,
+            'options' => $enquete->options,
+            'enquete' => $enquete,
+            'today' => date('Y-m-d', strtotime('now'))
+        ]);
+    }
+
     public function answer(Request $request) {
         $option = Option::find($request->answer);
         $option->n_answers++;
         $option->update();
         return redirect()->back();
-        // return view('enquete',[
-        //     'title' => $enquete->title,
-        //     'question' => $enquete->question,
-        //     'options' => $enquete->options,
-        // ]);
     }
 
     public function create(Request $request) {
@@ -62,15 +68,6 @@ class EnqueteController extends Controller
         $request->session()->flash("title", $enquete->title);
         $request->session()->put("n_options", $request->n_options);
         return redirect("/nova-enquete/$enquete->id");
-    }
-
-    public function read(Request $request) {
-        $enquete = Enquete::find($request->id);
-        return view('enquete',[
-            'title' => $enquete->title,
-            'question' => $enquete->question,
-            'options' => $enquete->options,
-        ]);
     }
 
     public function editForm(Request $request) {

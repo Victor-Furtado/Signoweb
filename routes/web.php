@@ -12,9 +12,9 @@
 */
 
 Route::get('/', 'EnqueteController@index');
-Route::get('/{id}', 'EnqueteController@read');
-Route::post('/{id}', 'EnqueteController@answer');
-Route::delete('/{id}', 'EnqueteController@destroy');
+Route::get('/enquete/{id}', 'EnqueteController@read');
+Route::post('/enquete/{id}', 'EnqueteController@answer');
+Route::delete('/enquete/{id}', 'EnqueteController@destroy');
 Route::get('/nova-enquete', 'EnqueteController@create');
 Route::get('/nova-enquete/{id}', 'OptionsController@create');
 Route::post('/nova-enquete/{id}', 'OptionsController@store');

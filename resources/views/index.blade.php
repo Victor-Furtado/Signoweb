@@ -51,7 +51,7 @@
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                                     <div class="flex items-center justify-between">
-                                        <a href="/{{$enquete->id}}">
+                                        <a href="/enquete/{{$enquete->id}}">
                                             <svg class="mx-2 w-12 h-12 md:mx-0 md:w-6 md:h-6" fill="none"
                                                 stroke="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +71,7 @@
                                                 </path>
                                             </svg>
                                         </a>
-                                        <form method='post' action="/{{ $enquete->id }}"
+                                        <form method='post' action="/enquete/{{ $enquete->id }}"
                                             onsubmit="return confirm('Tem certeza que deseja excluir {{$enquete->title}}?')">
                                             @csrf
                                             @method('DELETE')
